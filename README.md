@@ -1,74 +1,99 @@
-# Surf Bits (surf-bits.com)
-O Surf Bits é um portal estático focado em curadoria de equipamentos, ofertas e guias de compra para a comunidade surfista. O projeto prioriza a monetização rápida e o baixo custo de manutenção, utilizando uma arquitetura baseada em performance e simplicidade.
-🎯 Objetivo do Projeto
-Criar um ecossistema de conteúdo transacional que converta intenção de compra em receita via afiliados, sem a complexidade de um backend ou a sobrecarga de um CMS tradicional.
-📈 Estratégia de Evolução (Fases)
-O projeto segue um modelo de crescimento incremental obrigatório:
- * FASE 1 — Surf Bits Deals (MVP): Curadoria de ofertas e guias de compra ("Melhor prancha para iniciantes"). Foco total em 5 a 8 páginas de alta conversão.
- * FASE 2 — Reviews e Comparativos: Expansão de conteúdo técnico detalhado após a indexação e os primeiros cliques serem validados.
- * FASE 3 — Conteúdo Editorial / Spots: Adição de conteúdo de lifestyle e guias de picos de surf (opcional e tardio).
-💸 Monetização
- * Affiliate Marketing: Inserção estratégica de links de afiliados (Amazon, Decathlon e lojas especializadas).
- * Foco Transacional: Todo conteúdo na Fase 1 deve ter um call-to-action (CTA) claro para compra.
-🛠 Stack Técnica
- * Framework: Astro (Static Site Generator)
- * Conteúdo: Markdown (Arquivos locais versionados)
- * Deploy: Coolify (Auto-hospedado)
- * Estilização: Tailwind CSS (opcional, mas recomendado pela performance)
- * Versionamento: Git (GitHub/GitLab)
-📁 Estrutura de Pastas Sugerida
-surf-bits/
-├── public/              # Assets estáticos (favicons, robots.txt)
-├── src/
-│   ├── components/      # Componentes UI (Cards de produtos, Botões de compra)
-│   ├── content/         # Arquivos Markdown (Ofertas e Guias)
-│   │   ├── deals/       # Conteúdo da Fase 1
-│   │   └── reviews/     # Conteúdo da Fase 2
-│   ├── layouts/         # Templates base (Layout padrão, SEO)
-│   ├── pages/           # Rotas do site (index.astro, 404.astro)
-│   └── styles/          # CSS Global
-├── astro.config.mjs     # Configurações do Astro
-├── package.json         # Dependências e scripts
-└── README.md            # Documentação do projeto
+# 🏄‍♂️ Surf Bits (surf-bits.com)
 
-🚀 Como Rodar Localmente
-Certifique-se de ter o Node.js instalado.
- * Instale as dependências:
-   npm install
+O **Surf Bits** é um portal estático de alta performance focado em curadoria de equipamentos, ofertas exclusivas e guias de compra especializados para a comunidade surfista. 
 
- * Inicie o servidor de desenvolvimento:
-   npm run dev
+Construído com uma arquitetura focada em **SEO**, **velocidade** e **conversão**, o projeto utiliza as melhores práticas de desenvolvimento estático moderno para garantir baixo custo de manutenção e máxima eficiência.
 
- * Acesse em: http://localhost:4321
-🚢 Deploy via Coolify
-Para publicar o Surf Bits no seu servidor via Coolify:
- * Novo Recurso: No painel do Coolify, selecione "New Resource" > "Public Repository" ou "Private Repository" (conectando seu GitHub).
- * Configuração de Build: * O Coolify detectará automaticamente o Astro (Nixpacks).
-   * Build Command: npm run build
-   * Install Command: npm install
-   * Publish Directory: dist
- * Domínio: Aponte o domínio surf-bits.com para o IP do seu servidor e configure-o na aba "Settings" do recurso no Coolify.
- * Deploy: Clique em "Deploy".
-📝 Boas Práticas
-SEO & Performance
- * Imagens: Sempre utilizar o componente <Image /> do Astro para otimização automática.
- * Metadados: Cada página deve ter um title único e uma description focada em CTR.
- * Links Internos: Manter uma estrutura de silos para fortalecer as páginas de "Deals".
- * Core Web Vitals: O site deve manter 90+ em todas as métricas do Lighthouse.
-Conteúdo (Markdown)
- * Manter o frontmatter limpo:
-   ---
-title: "As 5 Melhores Pranchas de Surf para Iniciantes em 2025"
-description: "Guia completo de compra com os melhores preços."
-affiliateLink: "https://amazon.com.br/..."
 ---
 
-🗺 Roadmap (Próximas Tarefas)
- * [ ] Configurar projeto base com Astro.
- * [ ] Criar Layout base com foco em SEO (Meta tags, OpenGraph).
- * [ ] Desenvolver componente de ProductCard (Imagem, Preço, Botão Afiliado).
- * [ ] Mapear e criar as 5 primeiras páginas de ofertas (Fase 1).
- * [ ] Configurar o arquivo robots.txt e sitemap-index.xml.
- * [ ] Realizar o primeiro deploy no Coolify.
- * [ ] Validar tracking de cliques nos links de afiliados.
-Seria útil se eu gerasse agora a estrutura base do arquivo astro.config.mjs ou o componente de SEO para as suas páginas?
+## 🎯 Objetivo do Projeto
+
+Criar um ecossistema de conteúdo transacional robusto que converta intenção de busca em receita via afiliados, eliminando a complexidade de backends pesados e focando 100% na experiência do usuário e na entrega de valor.
+
+---
+
+## 📈 Estratégia de Evolução
+
+O projeto segue um modelo de crescimento incremental rigoroso:
+
+1.  **FASE 1 — Surf Bits Deals (MVP):** Curadoria de ofertas e guias de compra fundamentais (ex: *"Melhor prancha para iniciantes"*). Foco em 5 a 8 páginas estrategicamente otimizadas.
+2.  **FASE 2 — Reviews e Comparativos:** Expansão para conteúdo técnico aprofundado e testes de produtos validados pela comunidade.
+3.  **FASE 3 — Conteúdo Editorial & Lifestyle:** Guias de picos, cultura surf e lifestyle (planejado para maturidade do domínio).
+
+---
+
+## 🛠 Stack Técnica (Mandatória)
+
+Para garantir os princípios de performance e portabilidade:
+
+*   **Framework:** [Astro](https://astro.build/) (Static Site Generator - SSG)
+*   **Componentes:** React (Apenas como [Astro Islands](https://docs.astro.build/en/concepts/islands/))
+*   **Estilização:** Tailwind CSS
+*   **Conteúdo:** Markdown/MDX (via Astro Content Collections)
+*   **Linguagem:** TypeScript (Strict Mode)
+*   **Deploy:** Estático (Cloudflare Pages / Vercel / Coolify)
+
+---
+
+## 📁 Estrutura do Projeto
+
+Seguimos uma estrutura rigorosa para facilitar a escalabilidade e manutenção:
+
+```text
+/
+├── public/              # Assets estáticos (imagens fixas, robots.txt, favicons)
+├── src/
+│   ├── content/         # Markdown/MDX + assets (Content Collections validadas por Zod)
+│   ├── data/            # JSON/TS exports (dados estáticos e configurações)
+│   ├── pages/           # Rotas do site (Static File-based Routing)
+│   ├── layouts/         # Estrutura base e SEO (layouts "finos")
+│   ├── components/
+│   │   ├── ui/          # Componentes .astro puros (zero client-side JS)
+│   │   └── islands/     # Componentes React interativos (islands de interatividade)
+│   ├── styles/          # Design tokens e CSS global (Tailwind)
+│   ├── lib/             # Helpers puros e utilitários agnósticos
+│   └── lib/routes.ts    # Gerenciador centralizado de rotas
+├── astro.config.mjs     # Configuração núcleo do Astro
+└── tailwind.config.mjs  # Tokens de design do Tailwind
+```
+
+---
+
+## 🚀 Guia de Desenvolvimento
+
+### Requisitos
+- Node.js (Versão LTS recomendada)
+- npm ou pnpm
+
+### Rodando Localmente
+1.  **Instale as dependências:**
+    ```bash
+    npm install
+    ```
+2.  **Inicie o ambiente de desenvolvimento:**
+    ```bash
+    npm run dev
+    ```
+3.  **Acesse:** `http://localhost:4321`
+
+### Build para Produção
+```bash
+npm run build
+npm run preview
+```
+
+---
+
+## 📝 Boas Práticas (Regras de Ouro)
+
+1.  **Static First:** Se pode ser estático, *deve* ser estático. Zero runtime server.
+2.  **Performance:** Imagens devem usar o componente `<Image />` do Astro. Lighthouse 95+ é o alvo.
+3.  **SEO:** Cada página deve possuir Title, Description e Canonical URL únicos.
+4.  **Islands:** Use componentes React (`islands/`) apenas para interatividade real. Prefira `client:visible`.
+5.  **Git Workflow:** Nunca commit na `main`. Use branches por feature e squash commits.
+
+---
+
+## 🗺 Planejamento e Roadmap
+
+O acompanhamento detalhado das fases de desenvolvimento, tarefas pendentes e status do projeto pode ser encontrado no arquivo [plan.md](./plan.md).
