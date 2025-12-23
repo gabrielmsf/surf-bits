@@ -8,7 +8,19 @@ Construído com uma arquitetura focada em **SEO**, **velocidade** e **conversão
 
 ## 🎯 Objetivo do Projeto
 
-Criar um ecossistema de conteúdo transacional robusto que converta intenção de busca em receita via afiliados, eliminando a complexidade de backends pesados e focando 100% na experiência do usuário e na entrega de valor.
+Criar um ecossistema de conteúdo transacional robusto que converta intenção de busca em receita via afiliados, eliminando a complexidade de backends pesados e focando 100% na experiência do usuário e na entrega de valor. O projeto opera em escala global, servindo como um hub centralizado para surfistas de múltiplas regiões.
+
+---
+
+## 🌍 Internacionalização & Localização
+
+O Surf Bits é nativamente **multi-idioma** e **multi-região**, projetado para escalar globalmente desde o dia um.
+
+*   **Idiomas Suportados:** Português (PT), Inglês (EN) e Espanhol (ES) estão disponíveis para *todas* as regiões.
+*   **Página Inicial (Diretório):** A raiz do domínio (`/`) atua como um seletor global de localização, direcionando o usuário para a região de interesse.
+*   **Estrutura de Regiões:**
+    *   **Nível 1 (Países):** Inicialmente Brasil 🇧🇷, Estados Unidos 🇺🇸 e Austrália 🇦🇺.
+    *   **Nível 2 (Sub-regiões):** Suporte arquitetural para regiões específicas dentro de países (ex: Califórnia, Gold Coast, Floripa).
 
 ---
 

@@ -24,6 +24,12 @@ O crescimento do projeto é dividido em 3 fases principais, focadas em ROI rápi
 - [x] Criar `src/lib/routes.ts` para gerenciamento centralizado de URLs.
 - [x] Desenvolver landing page "Em Breve" para validação de deploy.
 
+### Arquitetura Global & i18n
+- [ ] Definir estratégia de roteamento para idiomas e regiões (Ex: `/br/pt`, `/us/en`).
+- [ ] Implementar utilitários de i18n (dicionários de tradução para UI).
+- [ ] Criar Página Inicial (Diretório) listando as regiões disponíveis (BR, US, AU).
+- [ ] Configurar Landing Pages específicas para cada país (BR, US, AU).
+
 ### Infraestrutura & Deploy
 - [x] Criar `robots.txt` permitindo acesso total.
 - [ ] Implementar `sitemap-index.xml` (Astro Sitemap integration).
