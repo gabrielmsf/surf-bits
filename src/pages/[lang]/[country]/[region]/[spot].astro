@@ -1,0 +1,169 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import spotImagesData from '../../../../data/spot_images.json';
+
+export async function getStaticPaths() {
+  const allSpots = await getCollection('spots');
+
+  return allSpots.map((spot) => {
+    // id format: br/pt/cacimba-do-padre.md
+    const parts = spot.id.split('/');
+
+    // Handle potential differences in path structure
+    // If parts length is 3: [country, lang, filename]
+    let country, lang, filename;
+
+    if (parts.length >= 3) {
+      country = parts[0];
+      lang = parts[1];
+      filename = parts[parts.length - 1];
+    } else {
+        // Fallback or skip if structure is unexpected
+        console.warn(`Unexpected spot ID format: ${spot.id}`);
+        return null;
+    }
+
+    const slug = filename.replace(/\.(md|mdx)$/, '');
+
+    return {
+      params: {
+        lang: lang,
+        country: country,
+        region: spot.data.region,
+        spot: slug
+      },
+      props: { spot },
+    };
+  }).filter((route) => route !== null);
+}
+
+const { spot } = Astro.props;
+const { Content } = await spot.render();
+
+// Image logic
+// Cast imported JSON to any to avoid strict type checking issues if keys are missing
+const imagesMap = spotImagesData as Record<string, string[]>;
+// The slug in the JSON keys matches the file slug (e.g. "cacimba-do-padre")
+// We need to ensure we use the correct key by stripping the path if present.
+// spot.slug might include path (e.g., "br/en/cacimba-do-padre"), but we want "cacimba-do-padre"
+const rawSlug = spot.slug || spot.id.split('/').pop().replace(/\.(md|mdx)$/, '');
+const slugKey = rawSlug.split('/').pop();
+const spotImages = imagesMap[slugKey] || [];
+
+// Fallback placeholder if empty
+const displayImages = spotImages.length > 0 ? spotImages : [
+  "https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&q=80&w=1000",
+  "https://images.unsplash.com/photo-1520443240718-fce21901db79?auto=format&fit=crop&q=80&w=1000",
+  "https://images.unsplash.com/photo-1537519646099-335112f03225?auto=format&fit=crop&q=80&w=1000"
+];
+
+// Translations for UI labels
+const ui = {
+  pt: {
+    season: "Melhor Época",
+    level: "Nível",
+    access: "Como Chegar",
+    gallery: "Galeria"
+  },
+  en: {
+    season: "Best Season",
+    level: "Skill Level",
+    access: "Getting There",
+    gallery: "Gallery"
+  },
+  es: {
+    season: "Mejor Época",
+    level: "Nivel",
+    access: "Cómo Llegar",
+    gallery: "Galería"
+  }
+};
+
+const currentLang = (Astro.params.lang as keyof typeof ui) || 'pt';
+const labels = ui[currentLang];
+
+---
+
+<BaseLayout title={spot.data.name} description={spot.data.description} lang={currentLang}>
+  <div class="max-w-4xl w-full mx-auto bg-white/90 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden my-8">
+
+    <!-- Hero / Header -->
+    <div class="bg-blue-600 p-8 text-white">
+      <div class="uppercase tracking-wide text-sm font-semibold opacity-80 mb-2">
+        {spot.data.country.toUpperCase()} • {spot.data.region.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ')}
+      </div>
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-4">{spot.data.name}</h1>
+      <p class="text-xl md:text-2xl font-light opacity-90">{spot.data.description}</p>
+    </div>
+
+    <div class="p-8 grid md:grid-cols-3 gap-8">
+
+      <!-- Main Content -->
+      <div class="md:col-span-2 space-y-8">
+
+        <!-- Info Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+            <h3 class="text-blue-800 font-bold uppercase text-xs mb-1">{labels.season}</h3>
+            <p class="text-gray-800 font-medium">{spot.data.best_season}</p>
+          </div>
+          <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+            <h3 class="text-blue-800 font-bold uppercase text-xs mb-1">{labels.level}</h3>
+            <p class="text-gray-800 font-medium">{spot.data.skill_level}</p>
+          </div>
+        </div>
+
+        <div class="prose prose-blue max-w-none text-gray-700 leading-relaxed">
+          <Content />
+        </div>
+
+        <!-- Getting There -->
+        <div class="bg-gray-50 p-6 rounded-lg border border-gray-100">
+          <h2 class="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
+             📍 {labels.access}
+          </h2>
+          <p class="text-gray-700">{spot.data.getting_there}</p>
+        </div>
+
+      </div>
+
+      <!-- Sidebar / Map / Extra -->
+      <div class="md:col-span-1 space-y-6">
+          <!-- Could add a mini map here later -->
+          <div class="bg-gray-100 rounded-lg h-64 w-full flex items-center justify-center text-gray-400">
+             <span class="text-sm">Map Placeholder</span>
+          </div>
+      </div>
+
+    </div>
+
+    <!-- Gallery -->
+    <div class="bg-gray-50 p-8 border-t border-gray-100">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">{labels.gallery}</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {displayImages.map((img, index) => (
+          <div class="aspect-video overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow group relative">
+             <img
+              src={img}
+              alt={`${spot.data.name} photo ${index + 1}`}
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            {spotImages.length === 0 && (
+              <div class="absolute inset-0 flex items-center justify-center bg-black/30 text-white text-xs font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+                Placeholder Image
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+
+  <div class="text-center mt-8 mb-16">
+      <a href={`/${currentLang}/${spot.data.country}`} class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors">
+        ← Back to {spot.data.country.toUpperCase()}
+      </a>
+  </div>
+</BaseLayout>
