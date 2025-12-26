@@ -32,7 +32,7 @@ O crescimento do projeto é dividido em 3 fases principais, focadas em ROI rápi
 
 ### Infraestrutura & Deploy
 - [x] Criar `robots.txt` permitindo acesso total.
-- [ ] Implementar `sitemap-index.xml` (Astro Sitemap integration).
+- [x] Implementar `sitemap-index.xml` (Astro Sitemap integration).
 - [ ] Realizar o primeiro deploy no **Coolify**.
 - [ ] Configurar domínios e certificados SSL para `surf-bits.com`.
 
