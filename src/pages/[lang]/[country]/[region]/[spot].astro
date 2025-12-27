@@ -166,10 +166,20 @@ const formattedDate = new Date(spot.data.date).toLocaleDateString(currentLang, {
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         {displayImages.map((img, index) => (
           <div class="aspect-video overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow group relative">
+             {/*
+                 ⚡ Performance Optimization:
+                 - loading="lazy": Defer loading offscreen images
+                 - decoding="async": Decode image off main thread
+                 - width/height: Prevent CLS by reserving space (16:9 ratio)
+             */}
              <img
               src={img}
               alt={`${spot.data.name} photo ${index + 1}`}
               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
+              decoding="async"
+              width="1000"
+              height="562"
             />
             {spotImages.length === 0 && (
               <div class="absolute inset-0 flex items-center justify-center bg-black/30 text-white text-xs font-mono opacity-0 group-hover:opacity-100 transition-opacity">
