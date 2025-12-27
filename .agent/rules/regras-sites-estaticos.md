@@ -66,7 +66,7 @@ Nomear compatível com Next.js
 Exemplos de rotas:
 src/pages/index.astro              → /
 src/pages/sao-paulo/[bairro].astro → /sao-paulo/:bairro
-src/pages/blog/[slug].astro        → /blog/:slug
+src/pages/[lang]/[country]/[region]/[spot].astro → /pt/br/sc/praia-mole (Spots substituem Blog)
 ❌ NUNCA:
 
 Gerar URLs hardcoded em múltiplos lugares
