@@ -8,23 +8,27 @@ export async function getStaticPaths() {
 
   return allSpots.map((spot) => {
     // id format: br/pt/cacimba-do-padre.md
+    // We can rely on split('/') because the file structure is enforced
     const parts = spot.id.split('/');
 
-    // Handle potential differences in path structure
-    // If parts length is 3: [country, lang, filename]
-    let country, lang, filename;
+    let country, lang;
 
     if (parts.length >= 3) {
       country = parts[0];
       lang = parts[1];
-      filename = parts[parts.length - 1];
     } else {
-        // Fallback or skip if structure is unexpected
         console.warn(`Unexpected spot ID format: ${spot.id}`);
         return null;
     }
 
-    const slug = filename.replace(/\.(md|mdx)$/, '');
+    // URL Stability Rule: Use frontmatter slug, NOT filename
+    // Renamed to url_slug to avoid Astro conflict
+    const slug = spot.data.url_slug;
+
+    if (!slug) {
+        console.error(`Missing url_slug for spot: ${spot.id}`);
+        return null;
+    }
 
     return {
       params: {
@@ -44,11 +48,11 @@ const { Content } = await spot.render();
 // Image logic
 // Cast imported JSON to any to avoid strict type checking issues if keys are missing
 const imagesMap = spotImagesData as Record<string, string[]>;
-// The slug in the JSON keys matches the file slug (e.g. "cacimba-do-padre")
-// We need to ensure we use the correct key by stripping the path if present.
-// spot.slug might include path (e.g., "br/en/cacimba-do-padre"), but we want "cacimba-do-padre"
-const rawSlug = spot.slug || spot.id.split('/').pop().replace(/\.(md|mdx)$/, '');
-const slugKey = rawSlug.split('/').pop();
+
+// Match image key using the same slug logic or a stable ID.
+// The JSON currently uses filename-based keys (e.g. "cacimba-do-padre").
+// Since we migrated slug to be filename-based for existing posts, spot.data.url_slug works.
+const slugKey = spot.data.url_slug;
 const spotImages = imagesMap[slugKey] || [];
 
 // Fallback placeholder if empty
@@ -83,6 +87,12 @@ const ui = {
 const currentLang = (Astro.params.lang as keyof typeof ui) || 'pt';
 const labels = ui[currentLang];
 
+// Date formatting
+const formattedDate = new Date(spot.data.date).toLocaleDateString(currentLang, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+});
 ---
 
 <BaseLayout title={spot.data.name} description={spot.data.description} lang={currentLang}>
@@ -90,11 +100,23 @@ const labels = ui[currentLang];
 
     <!-- Hero / Header -->
     <div class="bg-blue-600 p-8 text-white">
-      <div class="uppercase tracking-wide text-sm font-semibold opacity-80 mb-2">
-        {spot.data.country.toUpperCase()} • {spot.data.region.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ')}
+      <div class="flex justify-between items-start">
+          <div class="uppercase tracking-wide text-sm font-semibold opacity-80 mb-2">
+            {spot.data.country.toUpperCase()} • {spot.data.region.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ')}
+          </div>
+          {spot.data.draft && (
+            <span class="bg-yellow-400 text-blue-900 text-xs font-bold px-2 py-1 rounded">DRAFT</span>
+          )}
       </div>
       <h1 class="text-4xl md:text-5xl font-extrabold mb-4">{spot.data.name}</h1>
       <p class="text-xl md:text-2xl font-light opacity-90">{spot.data.description}</p>
+
+      <div class="mt-4 flex gap-2 flex-wrap">
+          {spot.data.tags && spot.data.tags.map(tag => (
+              <span class="bg-blue-500/50 text-white text-xs px-2 py-1 rounded-full border border-blue-400/30">#{tag}</span>
+          ))}
+          <span class="text-xs opacity-60 flex items-center ml-auto">{formattedDate}</span>
+      </div>
     </div>
 
     <div class="p-8 grid md:grid-cols-3 gap-8">

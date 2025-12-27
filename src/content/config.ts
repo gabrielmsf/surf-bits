@@ -4,7 +4,11 @@ const spots = defineCollection({
   type: 'content',
   schema: z.object({
     name: z.string(),
+    url_slug: z.string(), // Renamed from slug to avoid conflict
+    date: z.coerce.date(),
     description: z.string(),
+    tags: z.array(z.string()).default([]),
+    draft: z.boolean().default(false),
     best_season: z.string(),
     skill_level: z.string(),
     getting_there: z.string(),

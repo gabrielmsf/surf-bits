@@ -1,0 +1,146 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { LANGUAGES, COUNTRIES, getUiTranslation, type Language } from '../../../lib/i18n';
+
+export async function getStaticPaths({ paginate }) {
+  const allSpots = await getCollection('spots');
+
+  // Group spots by country and lang
+  const spotsByPath = {};
+
+  allSpots.forEach(spot => {
+    // Expected id format: country/lang/filename
+    const parts = spot.id.split('/');
+    if (parts.length >= 2) {
+      const country = parts[0];
+      const lang = parts[1];
+      const key = `${lang}/${country}`;
+
+      if (!spotsByPath[key]) {
+        spotsByPath[key] = [];
+      }
+      spotsByPath[key].push(spot);
+    } else {
+        console.warn('Skipping spot with weird ID:', spot.id);
+    }
+  });
+
+  const paths = [];
+
+  // Sort posts by date descending
+  for (const key in spotsByPath) {
+      spotsByPath[key].sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+  }
+
+  for (const lang of Object.values(LANGUAGES)) {
+    for (const country of Object.values(COUNTRIES)) {
+      const key = `${lang}/${country}`;
+      const spots = spotsByPath[key] || [];
+
+      // Pagination Rule B2/B3: Paginate large lists.
+      // We start with a small number to demonstrate pagination if there are enough posts,
+      // or just keep it reasonable (e.g. 10).
+      const paged = paginate(spots, {
+        params: { lang, country },
+        pageSize: 10
+      });
+
+      paths.push(...paged);
+    }
+  }
+
+  return paths;
+}
+
+const { page } = Astro.props;
+const { lang, country } = Astro.params;
+const t = getUiTranslation(lang as Language);
+---
+
+<BaseLayout title={`Surf Bits - ${country.toUpperCase()}`} lang={lang}>
+	<main class="max-w-4xl mx-auto space-y-12 animate-in fade-in duration-1000 my-12 px-4">
+        <!-- Header -->
+		<div class="text-center space-y-8">
+            <div class="relative inline-block">
+                <h1 class="text-6xl md:text-8xl font-black tracking-tighter bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
+                    SURF BITS
+                </h1>
+                <div class="absolute -top-6 -right-6 md:-top-8 md:-right-8 bg-blue-600 text-white text-xs md:text-sm font-bold px-3 py-1 rounded-full rotate-12 shadow-lg shadow-blue-500/20 uppercase">
+                    {country} / {lang}
+                </div>
+            </div>
+
+            <p class="text-slate-400 text-lg md:text-xl max-w-md mx-auto leading-relaxed">
+                {t.subtitle}
+            </p>
+        </div>
+
+        <!-- Spot List -->
+        <div class="grid gap-6">
+            {page.data.length === 0 ? (
+                 <div class="text-center py-12 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                    <span class="text-cyan-400 font-bold">{t.comingSoon}</span>
+                </div>
+            ) : (
+                page.data.map((spot) => {
+                    // Use url_slug as per schema
+                    const slug = spot.data.url_slug;
+                    const url = `/${lang}/${country}/${spot.data.region}/${slug}`;
+                    return (
+                        <a href={url} class="block group bg-white hover:bg-blue-50 border border-gray-200 rounded-xl p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h2 class="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+                                        {spot.data.name}
+                                    </h2>
+                                    <div class="flex items-center gap-2 mt-2 text-sm text-gray-500">
+                                        <span class="uppercase font-semibold tracking-wider text-xs">{spot.data.region}</span>
+                                        <span>•</span>
+                                        <span>{spot.data.skill_level}</span>
+                                    </div>
+                                </div>
+                                <div class="hidden md:block">
+                                    <span class="inline-flex items-center justify-center px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold uppercase">
+                                        Read
+                                    </span>
+                                </div>
+                            </div>
+                            <p class="mt-4 text-gray-600 line-clamp-2">
+                                {spot.data.description}
+                            </p>
+                        </a>
+                    );
+                })
+            )}
+        </div>
+
+        <!-- Pagination Controls -->
+        {page.total > page.size && (
+            <div class="flex justify-center gap-4 pt-8">
+                {page.url.prev && (
+                    <a href={page.url.prev} class="px-4 py-2 bg-white border border-gray-300 rounded hover:bg-gray-50 text-gray-700">
+                        &larr; Previous
+                    </a>
+                )}
+                <span class="px-4 py-2 text-gray-500">
+                    Page {page.currentPage} of {page.lastPage}
+                </span>
+                {page.url.next && (
+                    <a href={page.url.next} class="px-4 py-2 bg-white border border-gray-300 rounded hover:bg-gray-50 text-gray-700">
+                        Next &rarr;
+                    </a>
+                )}
+            </div>
+        )}
+
+		<div class="h-1 w-24 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto rounded-full opacity-50 mt-12"></div>
+
+		<div class="text-center">
+            <p class="text-slate-500 text-sm font-medium tracking-widest uppercase">
+                2025 • surf-bits.com
+            </p>
+            <a href="/" class="text-blue-500 hover:text-blue-400 text-sm mt-4 inline-block">← Choose Region</a>
+        </div>
+	</main>
+</BaseLayout>
