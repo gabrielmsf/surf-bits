@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Hero from '../../../components/Hero.astro';
+import Card from '../../../components/Card.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  return [
+    { params: { lang: 'pt-br', country: 'br' } },
+    { params: { lang: 'en', country: 'us' } },
+    { params: { lang: 'en', country: 'au' } },
+    // Add other combinations as needed for i18n
+  ];
+}
+
+const { country, lang } = Astro.params;
+
+// Country Data
+const countryData: Record<string, { name: string; image: string; desc: string }> = {
+  br: {
+    name: "Brazil",
+    image: "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?q=80&w=2070&auto=format&fit=crop",
+    desc: "From the powerful barrels of Fernando de Noronha to the endless waves of Florianópolis."
+  },
+  us: {
+    name: "USA",
+    image: "https://images.unsplash.com/photo-1415604934674-561df9abf539?q=80&w=2080&auto=format&fit=crop",
+    desc: "Experience the diversity of American surf, from California point breaks to Hawaiian pipelines."
+  },
+  au: {
+    name: "Australia",
+    image: "https://images.unsplash.com/photo-1526346698789-22fd84314424?q=80&w=2070&auto=format&fit=crop",
+    desc: "The land of Oz offers some of the world's most consistent and high-quality surf."
+  }
+};
+
+const currentCountry = countryData[country!] || countryData.br;
+
+// Fetch spots for this country
+const allSpots = await getCollection('spots');
+const regionSpots = allSpots.filter(spot => spot.data.country === country);
+
+---
+
+<BaseLayout title={`Surfing in ${currentCountry.name}`}>
+
+  <Hero
+    title={`Surfing in ${currentCountry.name}`}
+    subtitle={currentCountry.desc}
+    image={currentCountry.image}
+    height="medium"
+  />
+
+  <section class="py-16 bg-ocean-dark">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-between items-end mb-12">
+        <div>
+          <h2 class="text-3xl font-display font-bold text-white mb-2">Top Spots</h2>
+          <p class="text-sand-100">Explore the best rated breaks in {currentCountry.name}</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {regionSpots.length > 0 ? (
+          regionSpots.map((spot) => (
+            <Card href={`/${lang}/${country}/${spot.data.region}/${spot.data.url_slug}`} class="bg-ocean-medium">
+              <div class="p-6">
+                <div class="flex justify-between items-start mb-4">
+                  <span class="bg-brand-primary/20 text-brand-primary text-xs font-bold px-2 py-1 rounded uppercase tracking-wide">
+                    {spot.data.skill_level}
+                  </span>
+                  <span class="text-sand-100 text-sm">{spot.data.best_season}</span>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">{spot.data.name}</h3>
+                <p class="text-sand-100/80 text-sm line-clamp-3 mb-4">
+                  {spot.data.description}
+                </p>
+                <div class="text-brand-accent text-sm font-semibold flex items-center group-hover:translate-x-1 transition-transform">
+                  View Guide <span class="ml-1">&rarr;</span>
+                </div>
+              </div>
+            </Card>
+          ))
+        ) : (
+          <div class="col-span-full text-center py-20 bg-white/5 rounded-2xl border border-white/5">
+            <p class="text-xl text-sand-100 font-medium">No spots found for this region yet.</p>
+            <p class="text-sand-100/60 mt-2">Check back soon as we explore more waves!</p>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

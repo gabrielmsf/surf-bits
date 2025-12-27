@@ -1,57 +1,115 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getRoute } from '../lib/routes';
-import { LANGUAGES, COUNTRIES } from '../lib/i18n';
+import Hero from '../components/Hero.astro';
+import Card from '../components/Card.astro';
 
-const regions = [
-  { country: COUNTRIES.BR, label: 'Brasil', flag: '🇧🇷', lang: LANGUAGES.PT },
-  { country: COUNTRIES.US, label: 'United States', flag: '🇺🇸', lang: LANGUAGES.EN },
-  { country: COUNTRIES.AU, label: 'Australia', flag: '🇦🇺', lang: LANGUAGES.EN },
+// Images
+const heroImage = "https://images.unsplash.com/photo-1502680390469-be75c86b636f?q=80&w=2070&auto=format&fit=crop";
+const brImage = "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?q=80&w=2070&auto=format&fit=crop";
+const usImage = "https://images.unsplash.com/photo-1415604934674-561df9abf539?q=80&w=2080&auto=format&fit=crop";
+const auImage = "https://images.unsplash.com/photo-1526346698789-22fd84314424?q=80&w=2070&auto=format&fit=crop";
+
+const countries = [
+  {
+    code: 'br',
+    name: 'Brasil',
+    image: brImage,
+    desc: 'Tropical waves and endless summer.',
+    href: '/pt-br/br'
+  },
+  {
+    code: 'us',
+    name: 'USA',
+    image: usImage,
+    desc: 'Iconic breaks from coast to coast.',
+    href: '/en/us'
+  },
+  {
+    code: 'au',
+    name: 'Australia',
+    image: auImage,
+    desc: 'The ultimate surfing destination.',
+    href: '/en/au'
+  }
 ];
 
-const otherOptions = [
-    { country: COUNTRIES.BR, label: 'Brasil (EN)', lang: LANGUAGES.EN },
-    { country: COUNTRIES.US, label: 'USA (ES)', lang: LANGUAGES.ES },
-    // Add more if needed or just link to default ones
+const features = [
+  {
+    title: "Curated Spots",
+    desc: "Detailed guides to the best breaks worldwide.",
+    icon: `<svg class="w-8 h-8 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>`
+  },
+  {
+    title: "Exclusive Deals",
+    desc: "Hand-picked gear at the best prices.",
+    icon: `<svg class="w-8 h-8 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`
+  },
+  {
+    title: "Community Reviews",
+    desc: "Real insights from real surfers.",
+    icon: `<svg class="w-8 h-8 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>`
+  }
 ];
-
 ---
 
-<BaseLayout title="Surf Bits - Select Region">
-	<main id="main-content" class="text-center space-y-12 animate-in fade-in duration-1000 max-w-4xl mx-auto">
-		<div class="space-y-4">
-			<h1 class="text-4xl md:text-6xl font-black tracking-tighter text-white">
-				SURF BITS
-			</h1>
-			<p class="text-slate-400 text-lg">
-				Select your region / Selecione sua região
-			</p>
-		</div>
+<BaseLayout title="Home">
 
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {regions.map((region) => (
-                <a
-                    href={getRoute.regionalHome(region.lang, region.country)}
-                    class="group relative block bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-blue-500/50 rounded-xl p-8 transition-all duration-300 hover:-translate-y-1"
-                >
-                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">{region.flag}</div>
-                    <h3 class="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">{region.label}</h3>
-                    <p class="text-sm text-slate-500 mt-2 uppercase tracking-wider">{region.lang}</p>
-                </a>
-            ))}
-		</div>
+  <Hero
+    title="Find Your Perfect Wave"
+    subtitle="Discover the best surf spots, gear, and local insights from around the globe."
+    image={heroImage}
+    height="large"
+  >
+    <a href="#explore" class="bg-brand-primary hover:bg-brand-secondary text-white px-8 py-4 rounded-full font-bold text-lg transition-all shadow-lg hover:shadow-brand-primary/40">
+      Start Exploring
+    </a>
+  </Hero>
 
-        <div class="pt-8 border-t border-slate-800/50">
-            <p class="text-slate-500 text-sm mb-4">All Supported Regions & Languages</p>
-            <div class="flex flex-wrap justify-center gap-4 text-sm">
-                {Object.values(COUNTRIES).map(country => (
-                    Object.values(LANGUAGES).map(lang => (
-                        <a href={getRoute.regionalHome(lang, country)} class="text-slate-400 hover:text-cyan-400 transition-colors">
-                            {country.toUpperCase()}/{lang.toUpperCase()}
-                        </a>
-                    ))
-                ))}
+  <!-- Features Section -->
+  <section class="py-20 bg-ocean-dark relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+        {features.map(feature => (
+          <div class="p-6 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors duration-300">
+            <div class="flex justify-center mb-4" set:html={feature.icon} />
+            <h3 class="text-xl font-bold text-white mb-2">{feature.title}</h3>
+            <p class="text-sand-100">{feature.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Country Selector -->
+  <section id="explore" class="py-24 bg-ocean-medium relative">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-display font-black text-white mb-4">Explore by Region</h2>
+        <p class="text-sand-100 text-lg max-w-2xl mx-auto">Select your destination and discover the best breaks the world has to offer.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {countries.map((country) => (
+          <Card href={country.href} class="h-[500px] group">
+            <div class="absolute inset-0">
+              <img
+                src={country.image}
+                alt={country.name}
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-ocean-dark via-ocean-dark/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
             </div>
-        </div>
-	</main>
+            <div class="absolute bottom-0 left-0 right-0 p-8 transform transition-transform duration-300 group-hover:-translate-y-2">
+              <h3 class="text-3xl font-bold text-white mb-2">{country.name}</h3>
+              <p class="text-sand-50 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">
+                {country.desc}
+              </p>
+            </div>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+
 </BaseLayout>

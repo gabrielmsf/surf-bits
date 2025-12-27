@@ -1,0 +1,56 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  image?: string;
+  height?: 'full' | 'large' | 'medium';
+  align?: 'center' | 'left';
+}
+
+const {
+  title,
+  subtitle,
+  image = "https://images.unsplash.com/photo-1502680390469-be75c86b636f?q=80&w=2070&auto=format&fit=crop",
+  height = 'medium',
+  align = 'center'
+} = Astro.props;
+
+const heightClasses = {
+  full: 'min-h-screen',
+  large: 'min-h-[70vh]',
+  medium: 'min-h-[50vh]'
+};
+
+const alignClasses = {
+  center: 'items-center text-center',
+  left: 'items-start text-left'
+};
+---
+
+<section class={`relative w-full flex flex-col justify-center ${heightClasses[height]} overflow-hidden`}>
+  <!-- Background Image -->
+  <div class="absolute inset-0 z-0">
+    <img
+      src={image}
+      alt={title}
+      class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-ocean-dark via-ocean-dark/50 to-transparent"></div>
+    <div class="absolute inset-0 bg-black/20"></div>
+  </div>
+
+  <!-- Content -->
+  <div class={`relative z-10 container mx-auto px-4 flex flex-col ${alignClasses[align]}`}>
+    <h1 class="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-4 tracking-tight drop-shadow-lg max-w-4xl">
+      {title}
+    </h1>
+    {subtitle && (
+      <p class="text-lg md:text-2xl text-sand-100 max-w-2xl drop-shadow-md font-light leading-relaxed">
+        {subtitle}
+      </p>
+    )}
+    <div class="mt-8">
+      <slot />
+    </div>
+  </div>
+</section>
