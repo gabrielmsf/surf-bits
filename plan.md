@@ -8,9 +8,9 @@ Este documento serve como a fonte da verdade para o progresso do desenvolvimento
 
 O crescimento do projeto é dividido em 3 fases principais, focadas em ROI rápido e SEO:
 
-1.  **FASE 1 — Surf Bits Deals (MVP):** Foco em conversão imediata. Curadoria de ofertas e guias de compra fundamentais (ex: *"Melhor prancha para iniciantes"*). Alvo: 5 a 8 páginas estrategicamente otimizadas.
-2.  **FASE 2 — Reviews e Comparativos:** Expansão técnica. Avaliações detalhadas de equipamentos e ferramentas de comparação, validadas por dados de cliques da Fase 1.
-3.  **FASE 3 — Conteúdo Editorial & Lifestyle:** Expansão de autoridade. Guias de picos, cultura surf e lifestyle para aumentar o tempo de permanência e autoridade do domínio.
+1.  **FASE 1 — Surf Spots Discovery:** Foco em atrair tráfego orgânico e construir autoridade. Mapeamento extensivo de picos de surf (50+ locais) para gerar volume de visitantes antes da monetização.
+2.  **FASE 2 — Surf Bits Deals (MVP):** Introdução da monetização. Curadoria de ofertas e guias de compra fundamentais (ex: *"Melhor prancha para iniciantes"*).
+3.  **FASE 3 — Reviews e Comparativos:** Expansão técnica. Avaliações detalhadas de equipamentos e ferramentas de comparação, validadas por dados de cliques da Fase 2.
 
 ---
 
@@ -36,16 +36,20 @@ O crescimento do projeto é dividido em 3 fases principais, focadas em ROI rápi
 - [ ] Realizar o primeiro deploy no **Coolify**.
 - [ ] Configurar domínios e certificados SSL para `surf-bits.com`.
 
-### Desenvolvimento da Fase 1 (MVP)
-- [ ] Definir Schema Zod para as `Content Collections` (Deals e Reviews).
+### Desenvolvimento da Fase 1 (Spots Discovery)
+- [ ] Produzir conteúdo para 50 locais de surf (Meta Inicial).
+- [ ] Validar apresentação visual das páginas de Spots.
+- [ ] Integrar scripts de Analytics (GA/Plausible) para monitoramento de tráfego.
+
+### Desenvolvimento da Fase 2 (Deals - MVP)
+- [ ] Definir Schema Zod para as `Content Collections` (Deals).
 - [ ] Desenvolver Componente `ProductCard` focado em conversão e Affiliate CTAs.
 - [ ] Implementar sistema de filtragem/tags para ofertas (opcional para MVP).
 - [ ] Mapear e produzir o conteúdo das 5 páginas core de equipamentos.
-- [ ] Integrar scripts de Analytics (GA/Plausible) conforme regras de performance.
 
 ### Qualidade e SEO
 - [ ] Auditar Core Web Vitals (Meta: Score 100/100).
-- [ ] Validar conformidade Schema.org (Product/Review).
+- [ ] Validar conformidade Schema.org (Product/Review/Place).
 - [ ] Validar se todos os componentes React são `islands` identificáveis e usam `client:visible`.
 
 ---

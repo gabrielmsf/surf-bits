@@ -28,9 +28,9 @@ O Surf Bits é nativamente **multi-idioma** e **multi-região**, projetado para 
 
 O projeto segue um modelo de crescimento incremental rigoroso:
 
-1.  **FASE 1 — Surf Bits Deals (MVP):** Curadoria de ofertas e guias de compra fundamentais (ex: *"Melhor prancha para iniciantes"*). Foco em 5 a 8 páginas estrategicamente otimizadas.
-2.  **FASE 2 — Reviews e Comparativos:** Expansão para conteúdo técnico aprofundado e testes de produtos validados pela comunidade.
-3.  **FASE 3 — Conteúdo Editorial & Lifestyle:** Guias de picos, cultura surf e lifestyle (planejado para maturidade do domínio).
+1.  **FASE 1 — Surf Spots Discovery:** Foco em atrair tráfego orgânico e construir autoridade através de um mapa abrangente de picos de surf (Meta: 50+ locais).
+2.  **FASE 2 — Surf Bits Deals (MVP):** Introdução da monetização. Curadoria de ofertas e guias de compra fundamentais (ex: *"Melhor prancha para iniciantes"*).
+3.  **FASE 3 — Reviews e Comparativos:** Expansão para conteúdo técnico aprofundado e testes de produtos validados pela comunidade.
 
 ---
 
