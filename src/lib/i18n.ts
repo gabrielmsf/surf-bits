@@ -18,16 +18,19 @@ export const uiTranslations = {
     selectRegion: 'Selecione sua região',
     comingSoon: 'Em Breve',
     subtitle: 'A melhor curadoria de equipamentos de surf.',
+    madeWithLove: 'Feito com amor por Pixlab Studio',
   },
   [LANGUAGES.EN]: {
     selectRegion: 'Select your region',
     comingSoon: 'Coming Soon',
     subtitle: 'The best curation of surf gear.',
+    madeWithLove: 'Made with love by Pixlab Studio',
   },
   [LANGUAGES.ES]: {
     selectRegion: 'Selecciona tu región',
     comingSoon: 'Próximamente',
     subtitle: 'La mejor selección de equipo de surf.',
+    madeWithLove: 'Hecho con amor por Pixlab Studio',
   },
 };
 
