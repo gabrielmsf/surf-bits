@@ -96,7 +96,7 @@ const formattedDate = new Date(spot.data.date).toLocaleDateString(currentLang, {
 ---
 
 <BaseLayout title={spot.data.name} description={spot.data.description} lang={currentLang}>
-  <div class="max-w-4xl w-full mx-auto bg-white/90 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden my-8">
+  <main id="main-content" class="max-w-4xl w-full mx-auto bg-white/90 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden my-8">
 
     <!-- Hero / Header -->
     <div class="bg-blue-600 p-8 text-white">
@@ -181,7 +181,7 @@ const formattedDate = new Date(spot.data.date).toLocaleDateString(currentLang, {
       </div>
     </div>
 
-  </div>
+  </main>
 
   <div class="text-center mt-8 mb-16">
       <a href={`/${currentLang}/${spot.data.country}`} class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors">

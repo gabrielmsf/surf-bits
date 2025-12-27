@@ -1,0 +1,3 @@
+## 2024-05-23 - BaseLayout Constraints for Accessibility Overlays
+**Learning:** `BaseLayout` uses `flex flex-col items-center justify-center` on the `<body>`. This vertical and horizontal centering can disrupt standard absolute positioning for accessibility overlays (like "Skip to Content" links) if they are not strictly positioned relative to the viewport.
+**Action:** When adding global overlays or skip links in `BaseLayout`, ensure to use `absolute top-0 left-0` (or similar) combined with `z-50` to force them out of the flex flow and anchor them to the viewport/top-left, ensuring they don't affect the centered layout when focused.
