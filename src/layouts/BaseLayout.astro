@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Footer from '../components/Footer.astro';
 
 interface Props {
 	title: string;
@@ -37,13 +38,16 @@ const { title, description = "Surf Bits - Curadoria de equipamentos e ofertas de
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 	</head>
-	<body class="min-h-screen flex flex-col items-center justify-center p-4">
+	<body class="min-h-screen flex flex-col p-4">
 		<a
 			href="#main-content"
 			class="absolute left-4 top-4 z-50 -translate-y-[150%] rounded bg-blue-600 px-4 py-2 font-bold text-white shadow-lg transition-transform focus:translate-y-0"
 		>
 			Skip to content
 		</a>
-		<slot />
+		<div class="flex-1 w-full flex flex-col items-center">
+			<slot />
+		</div>
+		<Footer lang={lang} />
 	</body>
 </html>
